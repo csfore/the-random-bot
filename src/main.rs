@@ -1,10 +1,12 @@
 mod generators {
     pub mod num;
+    pub mod fibo;
 }
 
 use std::io;
 
 fn main() {
+    // This is all for debugging purposes
     let mut floor = String::new();
     let mut ceiling = String::new();
 
@@ -21,7 +23,7 @@ fn main() {
     let floor_parsed: i32 = floor.trim().parse().unwrap();
     let ceiling_parsed: i32 = ceiling.trim().parse().unwrap();
 
-    let rand = generators::num::rand_num(floor_parsed, ceiling_parsed);
+    let fibo = generators::fibo::nth_fibo(floor_parsed);
 
-    println!("Your number is: {}", rand);
+    println!("Nth digit is: {}", fibo);
 }
