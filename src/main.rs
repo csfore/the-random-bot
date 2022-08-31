@@ -36,6 +36,17 @@ async fn num(
     Ok(())
 }
 
+/// Generates a random number between the floor and ceiling you provide
+#[poise::command(slash_command, prefix_command)]
+async fn fibonacci(
+    ctx: Context<'_>,
+    #[description = "Nth number in the fibonacci sequence"] digit: Option<i32>
+) -> Result<(), Error> {
+    let nth = digit.as_ref().unwrap_or_else(|| &1);
+    ctx.say(generators::fibo::nth_fibo(*nth).to_string()).await?;
+    Ok(())
+}
+
 #[poise::command(prefix_command)]
 async fn register(ctx: Context<'_>) -> Result<(), Error> {
     poise::builtins::register_application_commands_buttons(ctx).await?;
@@ -49,7 +60,7 @@ async fn main() {
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
             // if you get a red line here on the last parenthesis, ignore it
-            commands: vec![age(), register(), num()],
+            commands: vec![age(), register(), num(), fibonacci()],
             ..Default::default()
         })
         .token(std::env::var("TOKEN").expect("missing DISCORD_TOKEN"))
