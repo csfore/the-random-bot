@@ -40,17 +40,52 @@ pub async fn fibonacci(
     Ok(())
 }
 
-// /// Generates a random wikipedia article
-// #[poise::command(slash_command, prefix_command)]
-// async fn wikipedia(
-//     ctx: Context<'_>
-// ) -> Result<(), Error> {
-//     let wiki = wikipedia::Wikipedia::<wikipedia::http::default::Client>::default();
-//     let page = wiki.random();
-//     let title = page.unwrap().expect("Something");
-//     let result = wiki.page_from_title(t);
-//     let content = result.get_content().unwrap();
-//     //let content = result.get_content().unwrap();
-//     ctx.say(format!("Title: {title}\nSummary: {content}\n")).await?;
-//     Ok(())
-// }
+/// Generates a random wikipedia article
+#[poise::command(slash_command, prefix_command)]
+pub async fn wikipedia(
+    ctx: Context<'_>
+) -> Result<(), Error> {
+    let wiki = wikipedia::Wikipedia::<wikipedia::http::default::Client>::default();
+    let page = wiki.random().unwrap().expect("Something");
+    let title = &page;
+
+    let result = wiki.page_from_title(String::from(title));
+    let content = result.get_summary().unwrap();
+
+    let convert = String::from(title).replace(" ", "_");
+
+    ctx.send(|b| {
+        b.embed(|b| b.title(format!("{title}")).description(format!("{content}"))
+            .field("URL", format!("https://en.wikipedia.org/wiki/{convert}\nPlease note: We just replace the spaces with underscores so link may be broken"), false)
+            .color(0xB87DDF))
+    }).await?;
+    Ok(())
+
+}
+
+#[poise::command(slash_command, prefix_command, reuse_response)]
+pub async fn test_reuse_response(ctx: Context<'_>) -> Result<(), Error> {
+    let image_url = "https://raw.githubusercontent.com/serenity-rs/serenity/current/logo.png";
+    let title = "Title";
+    let text = "Hello!";
+
+
+    Ok(())
+}
+
+/*
+|b| {
+        b.content("message 1")
+            .embed(|b| b.description("embed 1").image(image_url))
+            .components(|b| {
+                b.create_action_row(|b| {
+                    b.create_button(|b| {
+                        b.label("button 1")
+                            .style(serenity::ButtonStyle::Primary)
+                            .custom_id(1)
+                    })
+                })
+            })
+    })
+    .await?;
+ */
