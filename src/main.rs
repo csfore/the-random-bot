@@ -13,8 +13,6 @@ pub struct Data {}
 // TODO: Ensure only devs can run this
 #[poise::command(prefix_command)]
 async fn register(ctx: Context<'_>) -> Result<(), Error> {
-    /// Registers the slash commands either on a global or guild level
-
     poise::builtins::register_application_commands_buttons(ctx).await?;
     Ok(())
 }
@@ -42,7 +40,7 @@ async fn main() {
                 general::num(),
                 general::fibonacci(),
                 general::wikipedia(),
-                general::test_reuse_response()
+                // general::test_reuse_response() <== Uncomment this when you need it
             ],
             ..Default::default()
         })

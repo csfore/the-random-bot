@@ -2,7 +2,6 @@ extern crate wikipedia;
 
 use crate::{Context, Error, generators};
 use poise::serenity_prelude as serenity;
-use std::fmt::Write as _;
 
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
@@ -63,15 +62,20 @@ pub async fn wikipedia(
 
 }
 
-#[poise::command(slash_command, prefix_command, reuse_response)]
-pub async fn test_reuse_response(ctx: Context<'_>) -> Result<(), Error> {
-    let image_url = "https://raw.githubusercontent.com/serenity-rs/serenity/current/logo.png";
-    let title = "Title";
-    let text = "Hello!";
+/*
+    Function below is used for testing purposes, uncomment it as needed and comment it back
+    on push otherwise it'll probably create more issues than not if you leave it uncommented.
+ */
 
-
-    Ok(())
-}
+// #[poise::command(slash_command, prefix_command, reuse_response)]
+// pub async fn test(ctx: Context<'_>) -> Result<(), Error> {
+//     let image_url = "https://raw.githubusercontent.com/serenity-rs/serenity/current/logo.png";
+//     let title = "Title";
+//     let text = "Hello!";
+//
+//
+//     Ok(())
+// }
 
 /*
 |b| {

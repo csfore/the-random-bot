@@ -5,8 +5,6 @@ extern crate wikipedia;
 
 
 pub fn nth_fibo(mut nth: i32) -> i32 {
-    /// Gets the Nth digit in the Fibonacci sequence
-
     if nth == 0 {
         return 1;
     } else if nth == 1 {
@@ -28,8 +26,6 @@ pub fn nth_fibo(mut nth: i32) -> i32 {
 }
 
 pub fn rand_num(floor: i32, ceiling: i32) -> i32 {
-    /// Returns a random number from the floor to the ceiling
-
     return rand::thread_rng().gen_range(floor..=ceiling);
 }
 
