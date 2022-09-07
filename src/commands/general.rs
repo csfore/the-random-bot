@@ -1,4 +1,4 @@
-use crate::{Context, Error, generators};
+use crate::{Context, Error};
 use poise::serenity_prelude as serenity;
 
 /// Displays your or another user's account creation date

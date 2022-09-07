@@ -1,7 +1,6 @@
 extern crate wikipedia;
 
 use crate::{Context, Error, generators};
-use poise::serenity_prelude as serenity;
 
 /// Generates a random number between the floor and ceiling you provide
 #[poise::command(slash_command, prefix_command)]
