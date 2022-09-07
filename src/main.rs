@@ -90,6 +90,13 @@ async fn main() {
                 rand_info::num(),
                 rand_info::fibonacci(),
                 rand_info::wikipedia(),
+                animals::dog(),
+                animals::fox(),
+                animals::cat(),
+                animals::panda(),
+                animals::red_panda(),
+                animals::bird(),
+                animals::koala(),
                 // general::test() <== Uncomment this when you need it
             ],
             ..Default::default()
