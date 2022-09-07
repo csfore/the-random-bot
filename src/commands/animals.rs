@@ -1,5 +1,4 @@
-use crate::{Context, Error, generators};
-use poise::serenity_prelude as serenity;
+use crate::{Context, Error};
 use serde_derive::{Deserialize};
 
 /// Fetches you a dog

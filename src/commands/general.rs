@@ -1,6 +1,5 @@
 use crate::{Context, Error, generators};
 use poise::serenity_prelude as serenity;
-use serde::forward_to_deserialize_any;
 use serde_derive::{Deserialize};
 
 #[derive(Deserialize, Debug)]
@@ -60,7 +59,6 @@ pub async fn ask(
         b.embed(|b| b.title(format!("{asker} Asked: {ask}")).description(format!("{answer}"))
             .color(0xB87DDF))
     }).await?;
-    //ctx.say(answer).await?;
     Ok(())
 
 }
