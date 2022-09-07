@@ -86,6 +86,7 @@ async fn main() {
                 register(),
                 general::say(),
                 general::age(),
+                general::ask(),
                 rand_info::num(),
                 rand_info::fibonacci(),
                 rand_info::wikipedia(),
