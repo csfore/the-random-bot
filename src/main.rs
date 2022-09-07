@@ -81,14 +81,15 @@ async fn main() {
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            // if you get a red line here on the last parenthesis, ignore it
+            // If you get a red line here on the last parenthesis, ignore it
             commands: vec![
-                general::age(),
                 register(),
+                general::say(),
+                general::age(),
                 rand_info::num(),
                 rand_info::fibonacci(),
                 rand_info::wikipedia(),
-                // general::test_reuse_response() <== Uncomment this when you need it
+                // general::test() <== Uncomment this when you need it
             ],
             ..Default::default()
         })

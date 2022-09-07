@@ -4,7 +4,5 @@
 
 /target
 
-.env
-
 # If for whatever reason these get pushed just refresh everything
 config.json

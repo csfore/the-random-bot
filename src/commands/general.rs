@@ -1,5 +1,17 @@
 use crate::{Context, Error};
 use poise::serenity_prelude as serenity;
+use serde_derive::{Deserialize};
+
+#[derive(Deserialize, Debug)]
+struct Config {
+    // last_fm_key: String,
+    // last_fm_ua: String,
+    //discord_token: String,
+    banned_words: Vec<String>,
+    //developers: Vec<String>,
+    //reddit: Reddit,
+    //imgur: Imgur
+}
 
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
@@ -10,6 +22,27 @@ pub async fn age(
     let u = user.as_ref().unwrap_or_else(|| ctx.author());
     let response = format!("{}'s account was created at {}", u.name, u.created_at());
     ctx.say(response).await?;
+    Ok(())
+}
+
+
+#[poise::command(slash_command)]
+pub async fn say(
+    ctx: Context<'_>,
+    #[description = "Tell the bot to say something"] message: Option<String>,
+) -> Result<(), Error> {
+    let config_path = "config.json";
+    let config_read = std::fs::read_to_string(&config_path);
+
+    let config: Config = serde_json::from_str(&config_read.unwrap()).unwrap();
+
+    let say = message.unwrap();
+    if config.banned_words.contains(&String::from(&say)) {
+        ctx.say("Banned word").await?;
+        return Ok(());
+    } else {
+        ctx.say(say).await?;
+    }
     Ok(())
 }
 
