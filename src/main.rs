@@ -2,14 +2,13 @@ mod commands;
 use commands::*;
 
 use poise::serenity_prelude as serenity;
-use dotenv::dotenv;
 use serde_derive::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 struct Config {
     // last_fm_key: String,
     // last_fm_ua: String,
-    // discord_token: String,
+    discord_token: String,
     // banned_words: Vec<String>,
     developers: Vec<String>,
     //reddit: Reddit,
@@ -75,7 +74,10 @@ async fn register(ctx: Context<'_>) -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() {
-    dotenv().ok();
+    let config_path = "config.json";
+    let config_read = std::fs::read_to_string(&config_path);
+
+    let config: Config = serde_json::from_str(&config_read.unwrap()).unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
@@ -90,7 +92,7 @@ async fn main() {
             ],
             ..Default::default()
         })
-        .token(std::env::var("TOKEN").expect("missing DISCORD_TOKEN"))
+        .token(config.discord_token)
         .intents(serenity::GatewayIntents::non_privileged())
         .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
 
