@@ -1,6 +1,6 @@
 extern crate wikipedia;
 
-use crate::{Context, Error, generators};
+use crate::{Context, Error, generators, helpers};
 
 /// Generates a random number between the floor and ceiling you provide
 #[poise::command(slash_command, prefix_command)]
@@ -47,4 +47,23 @@ pub async fn wikipedia(
     }).await?;
     Ok(())
 
+}
+
+/// Generates a random word and definition
+#[poise::command(slash_command, prefix_command)]
+pub async fn word(
+    ctx: Context<'_>
+) -> Result<(), Error> {
+    let choice = generators::word();
+    let word = choice.0;
+    let definition = choice.1;
+
+    let word_lower = helpers::capitalize_first_letter(&word.to_lowercase());
+
+    ctx.send(|b| {
+        b.embed(|b| b.title(format!("{word_lower}"))
+            .description(format!("{definition}"))
+            .color(0xB87DDF))
+    }).await?;
+    Ok(())
 }

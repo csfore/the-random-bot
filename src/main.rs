@@ -90,6 +90,7 @@ async fn main() {
                 rand_info::num(),
                 rand_info::fibonacci(),
                 rand_info::wikipedia(),
+                rand_info::word(),
                 animals::dog(),
                 animals::fox(),
                 animals::cat(),

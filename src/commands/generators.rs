@@ -1,5 +1,5 @@
 use rand::Rng;
-
+use std::collections::HashMap;
 
 extern crate wikipedia;
 
@@ -55,10 +55,33 @@ pub fn eight_ball() -> &'static str {
     return responses[index];
 }
 
+pub fn word() -> (String, String) {
+    let config_path = "dictionary.json";
+    let config_read = std::fs::read_to_string(&config_path);
+
+    let dictionary: HashMap<String, String> = serde_json::from_str(&config_read.unwrap()).unwrap();
+
+    let mut keys: Vec<String> = Vec::new();
+    let mut values: Vec<String> = Vec::new();
+
+    for (key, value) in dictionary {
+        keys.push(key);
+        values.push(value);
+    }
+
+    let choice = rand::thread_rng().gen_range(0..keys.len() - 1);
+
+    let keys_ret = &keys[choice];
+    let values_ret = &values[choice];
+
+    return (String::from(keys_ret), String::from(values_ret));
+}
+
+// TODO: Figure out a way to fix this in regards to floating point stuff
 // pub fn nth_pi(nth: i32) -> f64 {
 //     /// Returns the Nth digit of Pi giving the nth argument
 //     ///
-//     /// TODO: Figure out a way to fix this in regards to floating point stuff
+//
 //     /// Do not use this for now until we find a way to use variable floating point precision
 //     ///
 //     /// Python has a library called `decimal` that let's you calculate to the Nth decimal, while Rust is
