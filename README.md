@@ -9,8 +9,10 @@ You need cargo and it should automatically install the crates on the first run. 
 
 ## Parity
 
-Parity with the Python version right now is about `25%`
+Parity with the Python version right now is about `30%`
 
 ## License
 
-This is licensed under AGPL3 (will do a thorough run-through later to ensure libraries used allow GPL usage)
+This is licensed under AGPL3
+
+The contents of `dictionary.json` are licensed under the MIT License as provided [here](https://github.com/adambom/dictionary).
