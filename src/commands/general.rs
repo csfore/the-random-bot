@@ -66,7 +66,7 @@ pub async fn ask(
 /*
     Function below is used for testing purposes, uncomment it as needed and comment it back
     on push otherwise it'll probably create more issues than not if you leave it uncommented.
- */
+*/
 
 // #[poise::command(slash_command, prefix_command, reuse_response)]
 // pub async fn test(ctx: Context<'_>) -> Result<(), Error> {

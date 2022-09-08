@@ -183,6 +183,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "command_attr"
+version = "0.4.1"
+source = "git+https://github.com/serenity-rs/serenity.git#1835fec767a6d0e112c153facdc3853b05b35227"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "cookie"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -923,6 +933,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
+name = "levenshtein"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db13adb97ab515a3691f56e4dbab09283d0b86cb45abd991d8634a9d6f501760"
+
+[[package]]
 name = "libc"
 version = "0.2.132"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1281,7 +1297,7 @@ dependencies = [
  "parking_lot 0.12.1",
  "poise_macros",
  "regex",
- "serenity",
+ "serenity 0.11.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio 1.20.1",
 ]
 
@@ -1818,6 +1834,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "serenity"
+version = "0.11.5"
+source = "git+https://github.com/serenity-rs/serenity.git#1835fec767a6d0e112c153facdc3853b05b35227"
+dependencies = [
+ "async-trait",
+ "async-tungstenite",
+ "base64 0.13.0",
+ "bitflags",
+ "bytes 1.2.1",
+ "cfg-if 1.0.0",
+ "chrono",
+ "command_attr",
+ "dashmap",
+ "flate2",
+ "futures 0.3.24",
+ "levenshtein",
+ "mime",
+ "mime_guess",
+ "parking_lot 0.12.1",
+ "percent-encoding 2.1.0",
+ "reqwest 0.11.11",
+ "serde",
+ "serde-value",
+ "serde_json",
+ "static_assertions",
+ "time 0.3.14",
+ "tokio 1.20.1",
+ "tracing",
+ "typemap_rev",
+ "url 2.2.2",
+ "uwl",
+]
+
+[[package]]
 name = "sha-1"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1867,6 +1917,12 @@ name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
+name = "static_assertions"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "string"
@@ -1932,6 +1988,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "serde_json",
+ "serenity 0.11.5 (git+https://github.com/serenity-rs/serenity.git)",
  "tokio 1.20.1",
  "wikipedia",
 ]
@@ -2359,6 +2416,12 @@ checksum = "90dbc611eb48397705a6b0f6e917da23ae517e4d127123d2cf7674206627d32a"
 dependencies = [
  "rand 0.6.5",
 ]
+
+[[package]]
+name = "uwl"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f4bf03e0ca70d626ecc4ba6b0763b934b6f2976e8c744088bb3c1d646fbb1ad0"
 
 [[package]]
 name = "vcpkg"

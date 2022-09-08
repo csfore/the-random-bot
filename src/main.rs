@@ -1,38 +1,43 @@
 mod commands;
 use commands::*;
 
-use poise::serenity_prelude as serenity;
+// use serenity::model::gateway::Activity;
+// use serenity::model::user::OnlineStatus;
+use poise::serenity_prelude;
+use poise::serenity_prelude::{Activity, OnlineStatus};
 use serde_derive::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 struct Config {
-    // last_fm_key: String,
-    // last_fm_ua: String,
     discord_token: String,
-    // banned_words: Vec<String>,
     developers: Vec<String>,
-    //reddit: Reddit,
-    //imgur: Imgur
 }
-
-// #[derive(Deserialize, Debug)]
-// struct Reddit {
-//     client_id: String,
-//     client_secret: String,
-//     user_agent: String
-// }
-//
-// #[derive(Deserialize, Debug)]
-// struct Imgur {
-//     imgur_id: String,
-//     imgur_secret: String,
-//     authorization: String
-// }
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
 pub struct Data {}
+
+async fn event_listener(
+    _ctx: &serenity_prelude::Context,
+    event: &poise::Event<'_>,
+    _framework: poise::FrameworkContext<'_, Data, Error>,
+    _user_data: &Data,
+) -> Result<(), Error> {
+    match event {
+        poise::Event::Ready { data_about_bot } => {
+            println!("{} is connected!", data_about_bot.user.name);
+
+            let activity = Activity::playing("with dice");
+            let status = OnlineStatus::Online;
+
+            _ctx.set_presence(Some(activity), status).await;
+        }
+        _ => {}
+    }
+
+    Ok(())
+}
 
 fn check_dev(id: String) -> bool {
     let config_path = "config.json";
@@ -65,10 +70,8 @@ async fn register(ctx: Context<'_>) -> Result<(), Error> {
 // TODO: Figure out a way to update client status
 // #[poise::command(prefix_command)]
 // async fn status(ctx: Context<'_>, msg: serenity::Message) -> Result<(), Error> {
-//     let mut args = msg.content.splitn(2, ' ');
 //
-//
-//     ctx.set_activity(serenity::Activity::playing("Hello")).await;
+//     ctx.set_activity(Activity::playing("Hello")).await;
 //     Ok(())
 // }
 
@@ -100,10 +103,13 @@ async fn main() {
                 animals::koala(),
                 // general::test() <== Uncomment this when you need it
             ],
+            listener: |ctx, event, framework, user_data| {
+                Box::pin(event_listener(ctx, event, framework, user_data))
+            },
             ..Default::default()
         })
         .token(config.discord_token)
-        .intents(serenity::GatewayIntents::non_privileged())
+        .intents(serenity_prelude::GatewayIntents::non_privileged())
         .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
 
     framework.run().await.unwrap();
