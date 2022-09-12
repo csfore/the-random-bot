@@ -1,3 +1,10 @@
+//! Written By: Christopher Fore, David Horine, and Marshall Pearson
+//! Written On: 2022-08-29
+//! License: AGPLv3
+//! Description: Originally written in Python using discord.py, we decided to rewrite the bot into
+//!              Rust using serenity-rs and poise. More detail later.
+
+
 mod commands;
 use commands::*;
 mod main_tests;
@@ -25,6 +32,9 @@ async fn event_listener(
     _framework: poise::FrameworkContext<'_, Data, Error>,
     _user_data: &Data,
 ) -> Result<(), Error> {
+    /*
+        Runs an event listener using Serenity's built-in listener to set the status and presence to online
+    */
     match event {
         poise::Event::Ready { data_about_bot } => {
             println!("{} is connected!", data_about_bot.user.name);
@@ -41,6 +51,10 @@ async fn event_listener(
 }
 
 fn check_dev(id: String) -> bool {
+    /*
+        Checks the config.json file to ensure a user is a developer to ensure they don't run privileged commands
+    */
+
     let config_path = "config.json";
     let config_read = std::fs::read_to_string(&config_path);
 
@@ -56,6 +70,9 @@ fn check_dev(id: String) -> bool {
 
 #[poise::command(prefix_command)]
 async fn register(ctx: Context<'_>) -> Result<(), Error> {
+    /*
+        Built-in poise command to register all slash commands globally or only in-guild
+    */
     let author = u64::from(ctx.author().id).to_string();
     if check_dev(author) {
         println!("Commands registered.");
@@ -67,14 +84,6 @@ async fn register(ctx: Context<'_>) -> Result<(), Error> {
 
     Ok(())
 }
-
-// TODO: Figure out a way to update client status
-// #[poise::command(prefix_command)]
-// async fn status(ctx: Context<'_>, msg: serenity::Message) -> Result<(), Error> {
-//
-//     ctx.set_activity(Activity::playing("Hello")).await;
-//     Ok(())
-// }
 
 #[tokio::main]
 async fn main() {

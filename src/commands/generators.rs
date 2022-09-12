@@ -1,3 +1,6 @@
+//! Description: Generators used to supply commands with information
+
+
 use rand::Rng;
 use std::collections::HashMap;
 

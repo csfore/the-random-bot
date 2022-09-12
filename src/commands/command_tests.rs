@@ -1,3 +1,6 @@
+//! Description: Unit tests to test generators and helper functions
+
+
 #[cfg(test)]
 mod command_tests {
     use crate::{generators, helpers};

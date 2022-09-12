@@ -1,3 +1,6 @@
+//! Description: Commands used to fetch random animals using various APIs
+
+
 use crate::{Context, Error};
 use serde_derive::{Deserialize};
 

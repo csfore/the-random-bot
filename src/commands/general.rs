@@ -1,3 +1,6 @@
+//! Description: General purpose commands
+
+
 use crate::{Context, Error, generators};
 use poise::serenity_prelude as serenity;
 use serde_derive::{Deserialize};

@@ -1,3 +1,7 @@
+//! Description: Commands used to fetch random information using generators.rs and to send the
+//!              output to Discord.
+
+
 extern crate wikipedia;
 
 use crate::{Context, Error, generators, helpers};
