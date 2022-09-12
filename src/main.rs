@@ -1,5 +1,6 @@
 mod commands;
 use commands::*;
+mod main_tests;
 
 // use serenity::model::gateway::Activity;
 // use serenity::model::user::OnlineStatus;
@@ -45,7 +46,7 @@ fn check_dev(id: String) -> bool {
 
     let config: Config = serde_json::from_str(&config_read.unwrap()).unwrap();
 
-    if config.developers.contains(&id) {
+    if config.developers.contains(&String::from(id)) {
         return true;
     }
 
