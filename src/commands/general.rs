@@ -77,20 +77,3 @@ pub async fn ask(
 //
 //     Ok(())
 // }
-
-/*
-|b| {
-        b.content("message 1")
-            .embed(|b| b.description("embed 1").image(image_url))
-            .components(|b| {
-                b.create_action_row(|b| {
-                    b.create_button(|b| {
-                        b.label("button 1")
-                            .style(serenity::ButtonStyle::Primary)
-                            .custom_id(1)
-                    })
-                })
-            })
-    })
-    .await?;
- */

@@ -1,6 +1,7 @@
 extern crate wikipedia;
 
 use crate::{Context, Error, generators, helpers};
+use serde_derive::{Deserialize};
 
 /// Generates a random number between the floor and ceiling you provide
 #[poise::command(slash_command, prefix_command)]
@@ -65,5 +66,28 @@ pub async fn word(
             .description(format!("{definition}"))
             .color(0xB87DDF))
     }).await?;
+    Ok(())
+}
+
+/// A random fact
+#[poise::command(slash_command)]
+pub async fn fact(
+    ctx: Context<'_>
+) -> Result<(), Error> {
+    #[derive(Debug, Deserialize)]
+    struct Response {
+        text: String
+    }
+    let resp = reqwest::get("https://uselessfacts.jsph.pl/random.json?language=en").await?;
+    let body = resp.text().await?;
+
+    let response: Response = serde_json::from_str(&body).unwrap();
+    let message = response.text;
+    ctx.send(|b| {
+        b.embed(|b| b.title("Your Fact:")
+            .description(message)
+            .color(0xB87DDF))
+    }).await?;
+    //println!("{}\n{}", &message, body);
     Ok(())
 }
