@@ -1,7 +1,12 @@
 //! Description: Generators used to supply commands with information
 
+use youtube_dl::{YoutubeDl, YoutubeDlOutput};
+use youtube_dl::SearchOptions;
+use rand::{
+    seq::SliceRandom,
+    Rng
+};
 
-use rand::Rng;
 use std::collections::HashMap;
 
 extern crate wikipedia;
@@ -78,6 +83,37 @@ pub fn word() -> (String, String) {
     let values_ret = &values[choice];
 
     return (String::from(keys_ret), String::from(values_ret));
+}
+
+pub fn youtube() -> String {
+    let mut links: Vec<String> = vec![];
+
+    let charset = vec!["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+                       "u",
+                       "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                       "P",
+                       "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+    let rand_prefix = charset.choose(&mut rand::thread_rng()).unwrap();
+    let rand_postfix = charset.choose(&mut rand::thread_rng()).unwrap();
+
+    let random_int: i32 = rand::thread_rng().gen_range(0..=9999);
+
+    let search_string: String = rand_prefix.to_string() + &random_int.to_string() + rand_postfix;
+
+    let search = SearchOptions::youtube(search_string).with_count(10);
+    let output = YoutubeDl::search_for(&search).socket_timeout("15").run().unwrap();
+
+    let entries = match output {
+        YoutubeDlOutput::Playlist(videos) => videos.entries,
+        _ => panic!("single video should not be a playlist"),
+    };
+
+    for video in entries.unwrap() {
+        links.push(video.webpage_url.unwrap());
+    }
+
+    return links.choose(&mut rand::thread_rng()).unwrap().to_string();
 }
 
 // TODO: Figure out a way to fix this in regards to floating point stuff

@@ -95,3 +95,14 @@ pub async fn fact(
     //println!("{}\n{}", &message, body);
     Ok(())
 }
+
+/// A random youtube video
+#[poise::command(slash_command)]
+pub async fn youtube(
+    ctx: Context<'_>
+) -> Result<(), Error> {
+    let video = generators::youtube();
+    ctx.say(video).await?;
+
+    Ok(())
+}

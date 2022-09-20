@@ -105,6 +105,7 @@ async fn main() {
                 rand_info::wikipedia(),
                 rand_info::word(),
                 rand_info::fact(),
+                rand_info::youtube(),
                 animals::dog(),
                 animals::fox(),
                 animals::cat(),
