@@ -3,7 +3,7 @@
 //! License: AGPLv3
 //! Description: Originally written in Python using discord.py, we decided to rewrite the bot into
 //!              Rust using serenity-rs and poise. More detail later.
-//! Testing
+//! Test
 
 mod commands;
 use commands::*;
