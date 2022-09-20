@@ -13,13 +13,11 @@ mod events;
 // use serenity::model::gateway::Activity;
 // use serenity::model::user::OnlineStatus;
 use poise::serenity_prelude;
-use poise::serenity_prelude::{Activity, OnlineStatus};
 use serde_derive::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 struct Config {
-    discord_token: String,
-    developers: Vec<String>,
+    discord_token_beta: String,
 }
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -62,7 +60,7 @@ async fn main() {
             },
             ..Default::default()
         })
-        .token(config.discord_token)
+        .token(config.discord_token_beta)
         .intents(serenity_prelude::GatewayIntents::non_privileged())
         .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
 
