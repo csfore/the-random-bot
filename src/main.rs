@@ -17,7 +17,6 @@ use serde_derive::{Deserialize};
 #[derive(Deserialize, Debug)]
 struct Config {
     discord_token_beta: String,
-    developers: Vec<String>,
 }
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
