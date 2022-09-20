@@ -1,6 +1,18 @@
 //! Description: Commands used to fetch random information using generators.rs and to send the
 //!              output to Discord.
 
+/*
+/// A descriptive description
+#[poise::command(slash_command)]
+pub async fn command(
+    ctx: Context<'_>,
+    #[description = "Option 1"] option1: Option<T>,
+    #[description = "Option 2"] option2: Option<T>,
+) -> Result<(), Error> {
+    // Code goes here
+    Ok(())
+}
+*/
 
 extern crate wikipedia;
 
@@ -16,9 +28,7 @@ pub async fn num(
 ) -> Result<(), Error> {
     let floor = floor_option.as_ref().unwrap_or_else(|| &1);
     let ceiling = ceiling_option.as_ref().unwrap_or_else(|| &100);
-
     ctx.say(generators::rand_num(*floor, *ceiling).to_string()).await?;
-
     Ok(())
 }
 
@@ -29,9 +39,7 @@ pub async fn fibonacci(
     #[description = "Nth number in the fibonacci sequence"] digit: Option<i32>
 ) -> Result<(), Error> {
     let nth = digit.as_ref().unwrap_or_else(|| &1);
-
     ctx.say(generators::nth_fibo(*nth).to_string()).await?;
-
     Ok(())
 }
 
@@ -54,8 +62,8 @@ pub async fn wikipedia(
             .field("URL", format!("https://en.wikipedia.org/wiki/{convert}\nPlease note: We just replace the spaces with underscores so link may be broken"), false)
             .color(0xB87DDF))
     }).await?;
-
     Ok(())
+
 }
 
 /// Generates a random word and definition
@@ -74,7 +82,6 @@ pub async fn word(
             .description(format!("{definition}"))
             .color(0xB87DDF))
     }).await?;
-
     Ok(())
 }
 
@@ -83,25 +90,21 @@ pub async fn word(
 pub async fn fact(
     ctx: Context<'_>
 ) -> Result<(), Error> {
-    // TODO Convert to local facts to reduce network bandwidth usage
-
     #[derive(Debug, Deserialize)]
     struct Response {
         text: String
     }
-
     let resp = reqwest::get("https://uselessfacts.jsph.pl/random.json?language=en").await?;
     let body = resp.text().await?;
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.text;
-
     ctx.send(|b| {
         b.embed(|b| b.title("Your Fact:")
             .description(message)
             .color(0xB87DDF))
     }).await?;
-
+    //println!("{}\n{}", &message, body);
     Ok(())
 }
 
@@ -110,9 +113,14 @@ pub async fn fact(
 pub async fn youtube(
     ctx: Context<'_>
 ) -> Result<(), Error> {
-    let video = generators::youtube();
-
-    ctx.say(video).await?;
-
+    let video: String = generators::youtube_video();
+    let output = video;
+    println!("{}", output);
+    ctx.say(output).await?;
+    // ctx.send(|b| {
+    //     b.embed(|b| b.title("YouTube Video")
+    //         .description(output)
+    //         .color(0xB87DDF))
+    // }).await?;
     Ok(())
 }
