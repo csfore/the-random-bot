@@ -18,7 +18,7 @@ use serde_derive::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 struct Config {
-    discord_token_beta: String,
+    discord_token: String,
     developers: Vec<String>,
 }
 
@@ -62,7 +62,7 @@ async fn main() {
             },
             ..Default::default()
         })
-        .token(config.discord_token_beta)
+        .token(config.discord_token)
         .intents(serenity_prelude::GatewayIntents::non_privileged())
         .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
 
