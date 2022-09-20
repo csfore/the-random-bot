@@ -3,7 +3,7 @@
 //! License: AGPLv3
 //! Description: Originally written in Python using discord.py, we decided to rewrite the bot into
 //!              Rust using serenity-rs and poise. More detail later.
-
+//! Testing
 
 mod commands;
 use commands::*;
@@ -17,7 +17,7 @@ use serde_derive::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 struct Config {
-    discord_token: String,
+    discord_token_beta: String,
     developers: Vec<String>,
 }
 
@@ -120,7 +120,7 @@ async fn main() {
             },
             ..Default::default()
         })
-        .token(config.discord_token)
+        .token(config.discord_token_beta)
         .intents(serenity_prelude::GatewayIntents::non_privileged())
         .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
 
