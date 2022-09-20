@@ -4,9 +4,11 @@
 //! Description: Originally written in Python using discord.py, we decided to rewrite the bot into
 //!              Rust using serenity-rs and poise. More detail later.
 
+
 mod commands;
 use commands::*;
 mod main_tests;
+mod events;
 
 // use serenity::model::gateway::Activity;
 // use serenity::model::user::OnlineStatus;
@@ -17,36 +19,13 @@ use serde_derive::{Deserialize};
 #[derive(Deserialize, Debug)]
 struct Config {
     discord_token_beta: String,
+    developers: Vec<String>,
 }
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
 pub struct Data {}
-
-async fn event_listener(
-    _ctx: &serenity_prelude::Context,
-    event: &poise::Event<'_>,
-    _framework: poise::FrameworkContext<'_, Data, Error>,
-    _user_data: &Data,
-) -> Result<(), Error> {
-    /*
-        Runs an event listener using Serenity's built-in listener to set the status and presence to online
-    */
-    match event {
-        poise::Event::Ready { data_about_bot } => {
-            println!("{} is connected!", data_about_bot.user.name);
-
-            let activity = Activity::playing("with dice");
-            let status = OnlineStatus::Online;
-
-            _ctx.set_presence(Some(activity), status).await;
-        }
-        _ => {}
-    }
-
-    Ok(())
-}
 
 #[tokio::main]
 async fn main() {
@@ -79,7 +58,7 @@ async fn main() {
                 // general::test() <== Uncomment this when you need it
             ],
             listener: |ctx, event, framework, user_data| {
-                Box::pin(event_listener(ctx, event, framework, user_data))
+                Box::pin(events::listener::event_listener(ctx, event, framework, user_data))
             },
             ..Default::default()
         })
