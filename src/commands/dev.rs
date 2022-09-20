@@ -13,3 +13,24 @@
 //     ctx.say(response).await?;
 //     Ok(())
 // }
+
+use poise::serenity_prelude;
+use crate::{Context, Error};
+use crate::helpers::check_dev;
+
+#[poise::command(prefix_command)]
+pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
+    /*
+        Built-in poise command to register all slash commands globally or only in-guild
+    */
+    let author = u64::from(ctx.author().id).to_string();
+    if check_dev(author) {
+        println!("Commands registered.");
+        poise::builtins::register_application_commands_buttons(ctx).await?;
+    } else {
+        println!("Commands failed to register");
+        ctx.say("It seems you don't have permission to use this.").await?;
+    }
+
+    Ok(())
+}

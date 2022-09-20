@@ -7,6 +7,21 @@ extern crate wikipedia;
 use crate::{Context, Error, generators, helpers};
 use serde_derive::{Deserialize};
 
+
+/*
+/// A descriptive description
+#[poise::command(slash_command)]
+pub async fn command(
+    ctx: Context<'_>,
+    #[description = "Option 1"] option1: Option<T>,
+    #[description = "Option 2"] option2: Option<T>,
+) -> Result<(), Error> {
+    // Code goes here
+    Ok(())
+}
+*/
+
+
 /// Generates a random number between the floor and ceiling you provide
 #[poise::command(slash_command, prefix_command)]
 pub async fn num(
