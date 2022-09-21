@@ -52,7 +52,7 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
         constantly to reduce latency. Will probably involve implementations and structs.
     */
     let mut client_options =
-        ClientOptions::parse("mongodb://admin:admin@localhost:27017")
+        ClientOptions::parse("mongodb://localhost:27017")
             .await?;
     // Manually set an option
     client_options.app_name = Some("The Random Bot".to_string());
