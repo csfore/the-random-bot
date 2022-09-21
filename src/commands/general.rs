@@ -73,10 +73,12 @@ pub async fn ask(
 
 // #[poise::command(slash_command, prefix_command, reuse_response)]
 // pub async fn test(ctx: Context<'_>) -> Result<(), Error> {
-//     let image_url = "https://raw.githubusercontent.com/serenity-rs/serenity/current/logo.png";
-//     let title = "Title";
-//     let text = "Hello!";
+//     use std::{thread, time};
 //
+//     let ten_millis = time::Duration::from_millis(10000);
+//     let now = time::Instant::now();
 //
+//     thread::sleep(ten_millis);
+//     println!("Slept");
 //     Ok(())
 // }

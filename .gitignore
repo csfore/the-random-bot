@@ -1,6 +1,6 @@
 # JetBrains and VSCode folder for settings
 .idea/
-
+.fleet/
 
 /target
 

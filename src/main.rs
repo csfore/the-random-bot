@@ -14,12 +14,23 @@ mod events;
 // use serenity::model::user::OnlineStatus;
 use poise::serenity_prelude;
 use poise::serenity_prelude::{Activity, OnlineStatus};
-use serde_derive::{Deserialize};
+use serde_derive::{Serialize, Deserialize};
+use mongodb::{
+    bson::{
+        doc,
+        Document
+    },
+    options::{
+        ClientOptions,
+        FindOptions
+    },
+    Client
+};
+use futures::stream::TryStreamExt;
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 struct Config {
     discord_token_beta: String,
-    developers: Vec<String>,
 }
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -29,6 +40,8 @@ pub struct Data {}
 
 #[tokio::main]
 async fn main() {
+
+
     let config_path = "config.json";
     let config_read = std::fs::read_to_string(&config_path);
 
@@ -55,7 +68,7 @@ async fn main() {
                 animals::red_panda(),
                 animals::bird(),
                 animals::koala(),
-                // general::test() <== Uncomment this when you need it
+                //general::test() //<== Uncomment this when you need it
             ],
             listener: |ctx, event, framework, user_data| {
                 Box::pin(events::listener::event_listener(ctx, event, framework, user_data))

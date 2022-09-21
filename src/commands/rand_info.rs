@@ -114,13 +114,7 @@ pub async fn youtube(
     ctx: Context<'_>
 ) -> Result<(), Error> {
     let video: String = generators::youtube_video();
-    let output = video;
-    println!("{}", output);
-    ctx.say(output).await?;
-    // ctx.send(|b| {
-    //     b.embed(|b| b.title("YouTube Video")
-    //         .description(output)
-    //         .color(0xB87DDF))
-    // }).await?;
+    println!("{}", video);
+    ctx.say(video).await?;
     Ok(())
 }

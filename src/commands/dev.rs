@@ -22,7 +22,7 @@ pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
         Built-in poise command to register all slash commands globally or only in-guild
     */
     let author = u64::from(ctx.author().id).to_string();
-    if check_dev(author) {
+    if check_dev(author.as_str()).await.unwrap() {
         println!("Commands registered.");
         poise::builtins::register_application_commands_buttons(ctx).await?;
     } else {
