@@ -1,17 +1,13 @@
 //! Description: Helper functions to reduce function clutter in files
 
 use mongodb::{
-    bson::{
-        doc,
-    },
-    options::{
-        ClientOptions,
-        FindOptions
-    },
-    Client
+    bson::doc,
+    options::FindOptions
 };
+
 use futures::stream::TryStreamExt;
 use serde_derive::{Serialize, Deserialize};
+use crate::database::connect;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Config {
@@ -50,21 +46,9 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
         Currently we're using a DB call everytime someone runs `register` but we will eventually add capabilities to have a DB connection up
         constantly to reduce latency. Will probably involve implementations and structs.
     */
-    let mut client_options =
-        ClientOptions::parse("mongodb://localhost:27017")
-            .await?;
-    // Manually set an option
-    client_options.app_name = Some("The Random Bot".to_string());
-    // Get a handle to the cluster
-    let client = Client::with_options(client_options)?;
-    // Ping the server to see if you can connect to the cluster
-    client
-        .database("admin")
-        .run_command(doc! {"ping": 1}, None)
-        .await?;
-    // List the names of the databases in that cluster
+
     // Get a handle to a database.
-    let db = client.database("randb");
+    let db = connect::init().await.unwrap();
 
     //collection.insert_many(devs, None).await?;
     let typed_collection = db.collection::<Dev>("developers");

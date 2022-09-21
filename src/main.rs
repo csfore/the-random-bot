@@ -9,6 +9,7 @@ mod commands;
 use commands::*;
 mod main_tests;
 mod events;
+mod database;
 
 // use serenity::model::gateway::Activity;
 // use serenity::model::user::OnlineStatus;
