@@ -3,7 +3,6 @@
 use mongodb::{
     bson::{
         doc,
-        Document
     },
     options::{
         ClientOptions,
@@ -63,7 +62,6 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
         .database("admin")
         .run_command(doc! {"ping": 1}, None)
         .await?;
-    println!("Connected to database successfully.");
     // List the names of the databases in that cluster
     // Get a handle to a database.
     let db = client.database("randb");
@@ -78,7 +76,7 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
     // Iterate over the results of the cursor.
     while let Some(developers) = cursor.try_next().await? {
         is_dev = true;
-        println!("Dev ID: {}", developers.id);
+        println!("Dev {} tried to register commands", developers.name);
     }
 
     if is_dev {

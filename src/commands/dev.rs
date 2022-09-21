@@ -26,9 +26,9 @@ pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
         println!("Commands registered.");
         poise::builtins::register_application_commands_buttons(ctx).await?;
     } else {
-        println!("Commands failed to register");
+        let name = &(ctx.author().name.to_owned() + &ctx.author().discriminator.to_string());
+        println!("User {} tried to register commands", name);
         ctx.say("It seems you don't have permission to use this.").await?;
     }
-
     Ok(())
 }

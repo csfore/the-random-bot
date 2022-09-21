@@ -13,20 +13,12 @@ mod events;
 // use serenity::model::gateway::Activity;
 // use serenity::model::user::OnlineStatus;
 use poise::serenity_prelude;
-use poise::serenity_prelude::{Activity, OnlineStatus};
 use serde_derive::{Serialize, Deserialize};
 use mongodb::{
     bson::{
         doc,
-        Document
     },
-    options::{
-        ClientOptions,
-        FindOptions
-    },
-    Client
 };
-use futures::stream::TryStreamExt;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Config {
