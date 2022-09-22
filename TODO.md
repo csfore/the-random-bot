@@ -28,4 +28,8 @@
 - [ ] Introduce a shared cache in some form to reduce API requests
   * Reduces the chances of being rate limited and potential reusability of data
 
+### Potential Performance Issues
+
+- Potential move to Cassandra DB for storage, but that will not be for a long time
+
 <sub>Side Note: if it's something small like code refactoring or an argument change, put it in the file with `// TODO [what to do]`</sub>
