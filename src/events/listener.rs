@@ -1,9 +1,6 @@
+use crate::{Data, Error};
 use poise::serenity_prelude;
 use poise::serenity_prelude::{Activity, OnlineStatus};
-use crate::{
-    Data,
-    Error
-};
 
 pub async fn event_listener(
     _ctx: &serenity_prelude::Context,

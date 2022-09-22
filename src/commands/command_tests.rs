@@ -1,6 +1,5 @@
 //! Description: Unit tests to test generators and helper functions
 
-
 #[cfg(test)]
 mod command_tests {
     use crate::{generators, helpers};
@@ -20,7 +19,8 @@ mod command_tests {
 
     #[test]
     fn eight_ball_test() {
-        let responses = ["It is certain",
+        let responses = [
+            "It is certain",
             "Without a doubt",
             "You may rely on it",
             "Yes, definitely",
@@ -39,7 +39,7 @@ mod command_tests {
             "Outlook not so good",
             "My sources say no",
             "Very doubtful",
-            "My reply is no"
+            "My reply is no",
         ];
         let index = rand::thread_rng().gen_range(0..=responses.len() - 1);
         assert!(responses.contains(&responses[index]))

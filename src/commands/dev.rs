@@ -14,8 +14,8 @@
 //     Ok(())
 // }
 
-use crate::{Context, Error};
 use crate::helpers::check_dev;
+use crate::{Context, Error};
 
 #[poise::command(prefix_command)]
 pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
@@ -30,7 +30,8 @@ pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
     } else {
         let name = &(ctx.author().name.to_owned() + &ctx.author().discriminator.to_string());
         warn!("User {} tried to register commands", name);
-        ctx.say("It seems you don't have permission to use this.").await?;
+        ctx.say("It seems you don't have permission to use this.")
+            .await?;
         Ok(())
     }
 }
@@ -46,7 +47,8 @@ pub async fn servers(ctx: Context<'_>) -> Result<(), Error> {
     } else {
         let name = &(ctx.author().name.to_owned() + &ctx.author().discriminator.to_string());
         warn!("User {} tried to register commands", name);
-        ctx.say("It seems you don't have permission to use this.").await?;
+        ctx.say("It seems you don't have permission to use this.")
+            .await?;
     }
     Ok(())
 }

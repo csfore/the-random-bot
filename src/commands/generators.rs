@@ -1,16 +1,12 @@
 //! Description: Generators used to supply commands with information
 
-use youtube_dl::{YoutubeDl, YoutubeDlOutput};
+use rand::{seq::SliceRandom, Rng};
 use youtube_dl::SearchOptions;
-use rand::{
-    seq::SliceRandom,
-    Rng
-};
+use youtube_dl::{YoutubeDl, YoutubeDlOutput};
 
 use std::collections::HashMap;
 
 extern crate wikipedia;
-
 
 pub fn nth_fibo(mut nth: i32) -> i32 {
     if nth == 0 {
@@ -38,7 +34,8 @@ pub fn rand_num(floor: i32, ceiling: i32) -> i32 {
 }
 
 pub fn eight_ball() -> &'static str {
-    let responses = ["It is certain",
+    let responses = [
+        "It is certain",
         "Without a doubt",
         "You may rely on it",
         "Yes, definitely",
@@ -57,7 +54,7 @@ pub fn eight_ball() -> &'static str {
         "Outlook not so good",
         "My sources say no",
         "Very doubtful",
-        "My reply is no"
+        "My reply is no",
     ];
     let index = rand::thread_rng().gen_range(0..=responses.len() - 1);
     return responses[index];
@@ -88,11 +85,12 @@ pub fn word() -> (String, String) {
 pub fn youtube_video() -> String {
     let mut links: Vec<String> = vec![];
 
-    let charset = vec!["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-                       "u",
-                       "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
-                       "P",
-                       "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+    let charset = vec![
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+        "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+        "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2",
+        "3", "4", "5", "6", "7", "8", "9", "0",
+    ];
 
     let rand_prefix = charset.choose(&mut rand::thread_rng()).unwrap();
     //let rand_postfix = charset.choose(&mut rand::thread_rng()).unwrap();
@@ -102,7 +100,10 @@ pub fn youtube_video() -> String {
     let search_string: String = rand_prefix.to_string();
 
     let search = SearchOptions::youtube(search_string).with_count(1);
-    let output = YoutubeDl::search_for(&search).socket_timeout("15").run().unwrap();
+    let output = YoutubeDl::search_for(&search)
+        .socket_timeout("15")
+        .run()
+        .unwrap();
 
     let entries = match output {
         YoutubeDlOutput::Playlist(videos) => videos.entries,

@@ -8,28 +8,26 @@ extern crate log;
 
 mod commands;
 use commands::*;
-mod main_tests;
-mod events;
 mod database;
+mod events;
+mod main_tests;
 
 // use serenity::model::gateway::Activity;
 // use serenity::model::user::OnlineStatus;
-use poise::serenity_prelude;
-use serde_derive::{Serialize, Deserialize};
+use futures::stream::TryStreamExt;
 use mongodb::{
     bson::doc,
-    options::{
-        FindOptions
-    },
+    options::FindOptions,
     //Database
 };
-use futures::stream::TryStreamExt;
+use poise::serenity_prelude;
+use serde_derive::{Deserialize, Serialize};
 
 use env_logger::Env;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Config {
-    token: String
+    token: String,
 }
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -54,8 +52,8 @@ async fn get_token() -> mongodb::error::Result<String> {
 #[tokio::main]
 async fn main() {
     let env = Env::default()
-    .filter_or("MY_LOG_LEVEL", "warn")
-    .write_style_or("MY_LOG_STYLE", "always");
+        .filter_or("MY_LOG_LEVEL", "warn")
+        .write_style_or("MY_LOG_STYLE", "always");
 
     env_logger::init_from_env(env);
 
@@ -86,7 +84,9 @@ async fn main() {
                 //general::test() //<== Uncomment this when you need it
             ],
             listener: |ctx, event, framework, user_data| {
-                Box::pin(events::listener::event_listener(ctx, event, framework, user_data))
+                Box::pin(events::listener::event_listener(
+                    ctx, event, framework, user_data,
+                ))
             },
             ..Default::default()
         })

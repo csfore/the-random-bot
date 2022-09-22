@@ -1,13 +1,10 @@
 //! Description: Helper functions to reduce function clutter in files
 
-use mongodb::{
-    bson::doc,
-    options::FindOptions
-};
+use mongodb::{bson::doc, options::FindOptions};
 
-use futures::stream::TryStreamExt;
-use serde_derive::{Serialize, Deserialize};
 use crate::database::connect;
+use futures::stream::TryStreamExt;
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Config {

@@ -1,9 +1,8 @@
 //! Description: General purpose commands
 
-
-use crate::{Context, Error, generators};
+use crate::{generators, Context, Error};
 use poise::serenity_prelude as serenity;
-use serde_derive::{Deserialize};
+use serde_derive::Deserialize;
 
 #[derive(Deserialize, Debug)]
 struct Config {
@@ -28,7 +27,6 @@ pub async fn age(
     Ok(())
 }
 
-
 #[poise::command(slash_command)]
 pub async fn say(
     ctx: Context<'_>,
@@ -52,18 +50,21 @@ pub async fn say(
 #[poise::command(slash_command)]
 pub async fn ask(
     ctx: Context<'_>,
-    #[description = "Ask me anything, and I may respond wisely"] question: Option<String>
+    #[description = "Ask me anything, and I may respond wisely"] question: Option<String>,
 ) -> Result<(), Error> {
     let ask = question.unwrap();
-    let asker =String::from(&ctx.author().name) + "#" + &ctx.author().discriminator.to_string();
+    let asker = String::from(&ctx.author().name) + "#" + &ctx.author().discriminator.to_string();
 
     let answer = generators::eight_ball();
     ctx.send(|b| {
-        b.embed(|b| b.title(format!("{asker} Asked: {ask}")).description(format!("{answer}"))
-            .color(0xB87DDF))
-    }).await?;
+        b.embed(|b| {
+            b.title(format!("{asker} Asked: {ask}"))
+                .description(format!("{answer}"))
+                .color(0xB87DDF)
+        })
+    })
+    .await?;
     Ok(())
-
 }
 
 /*
