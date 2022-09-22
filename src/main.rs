@@ -37,18 +37,6 @@ type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
 pub struct Data {}
 
-//#[derive(Debug, Clone)]
-//pub struct DB {
-//    db: Database
-//}
-
-//pub async fn boxed_db() -> Box<DB> {
-//    // Allocate this point on the heap, and return a pointer to it
-//    Box::new(DB {
-//        db: database::connect::init().await.unwrap()
-//    })
-//}
-
 async fn get_token() -> mongodb::error::Result<String> {
     let db = database::connect::init().await.unwrap();
     let typed_collection = db.collection::<Config>("config");
@@ -72,12 +60,6 @@ async fn main() {
     env_logger::init_from_env(env);
 
     let token = get_token().await.unwrap();
-
-
-//    let config_path = "config.json";
-//    let config_read = std::fs::read_to_string(&config_path);
-//
-//    let config: Config = serde_json::from_str(&config_read.unwrap()).unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
