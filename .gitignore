@@ -2,8 +2,6 @@
 .idea/
 .fleet/
 
-/target
-
 # If for whatever reason these get pushed just refresh everything
 config.json
 
