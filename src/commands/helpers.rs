@@ -60,7 +60,7 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
     // Iterate over the results of the cursor.
     while let Some(developers) = cursor.try_next().await? {
         is_dev = true;
-        println!("Dev {} tried to register commands", developers.name);
+        warn!("{} ran a dev command", developers.name);
     }
 
     if is_dev {
