@@ -12,7 +12,6 @@ mod commands;
 use commands::*;
 mod database;
 mod events;
-mod main_tests;
 use poise::serenity_prelude;
 
 use env_logger::Env;
