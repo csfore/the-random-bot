@@ -1,12 +1,7 @@
 //! Description: Generators used to supply commands with information
-use roux::Subreddit;
-use rand::{seq::SliceRandom, Rng, thread_rng};
-use serde_derive::{Deserialize, Serialize};
-use crate::helpers;
 
+use rand::Rng;
 use std::collections::HashMap;
-
-extern crate wikipedia;
 
 pub fn nth_fibo(mut nth: i32) -> i32 {
     if nth == 0 {

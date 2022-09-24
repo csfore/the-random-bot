@@ -2,10 +2,10 @@
 
 extern crate wikipedia;
 
-use crate::{generators, helpers, Context, Error};
-use rand::{thread_rng, Rng};
-use chrono::{DateTime, TimeZone, Utc};
-use serde_derive::{Deserialize, Serialize};
+use crate::{generators, Context, Error};
+use rand::Rng;
+use chrono::{TimeZone, Utc};
+use serde_derive::Deserialize;
 
 /// A random fact
 #[poise::command(slash_command)]
@@ -112,6 +112,7 @@ pub async fn weather(
 
     let result = generators::weather::get_weather(lat.unwrap(), long.unwrap()).await;
     let city = generators::weather::get_city(result.coord.lat, result.coord.lon).await.unwrap();
+    // For now, ignore the compiler warning about this being unread. I'll figure something out
     let mut city_msg = String::new();
     match city {
         None => {

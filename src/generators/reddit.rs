@@ -2,7 +2,6 @@
 
 use rand::prelude::SliceRandom;
 use roux::Subreddit;
-use crate::generators::structs;
 use crate::generators::structs::{PostData, RawPost};
 
 pub async fn get_post() -> PostData {

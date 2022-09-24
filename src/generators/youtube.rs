@@ -2,7 +2,7 @@
 
 use youtube_dl::SearchOptions;
 use youtube_dl::{YoutubeDl, YoutubeDlOutput};
-use rand::{seq::SliceRandom, Rng, thread_rng};
+use rand::{seq::SliceRandom, thread_rng};
 
 pub fn youtube_video() -> String {
     let mut links: Vec<String> = vec![];

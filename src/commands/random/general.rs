@@ -15,8 +15,6 @@ pub async fn command(
 */
 
 use crate::{generators, helpers, Context, Error};
-use serde_derive::Deserialize;
-use rand::{thread_rng, Rng};
 
 /// Generates a random number between the floor and ceiling you provide
 #[poise::command(slash_command, prefix_command)]
