@@ -6,6 +6,8 @@
 #[macro_use]
 extern crate log;
 
+mod generators;
+mod helpers;
 mod commands;
 use commands::*;
 mod database;
@@ -14,6 +16,7 @@ mod main_tests;
 use poise::serenity_prelude;
 
 use env_logger::Env;
+use crate::random::{animals, api_commands, general};
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
@@ -29,7 +32,7 @@ async fn main() {
 
     env_logger::init_from_env(env);
 
-    let token = helpers::get_token().await.unwrap();
+    let token = helpers::helpers::get_token().await.unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
@@ -37,17 +40,17 @@ async fn main() {
             commands: vec![
                 dev::register(),
                 dev::servers(),
-                general::say(),
-                general::age(),
-                general::ask(),
-                rand_info::num(),
-                rand_info::fibonacci(),
-                rand_info::wikipedia(),
-                rand_info::word(),
-                rand_info::fact(),
-                rand_info::youtube(),
-                rand_info::reddit(),
-                rand_info::weather(),
+                misc::say(),
+                misc::age(),
+                misc::ask(),
+                general::num(),
+                general::fibonacci(),
+                general::word(),
+                api_commands::wikipedia(),
+                api_commands::fact(),
+                api_commands::youtube(),
+                api_commands::reddit(),
+                api_commands::weather(),
                 animals::dog(),
                 animals::fox(),
                 animals::cat(),

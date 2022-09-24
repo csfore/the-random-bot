@@ -14,8 +14,8 @@
 //     Ok(())
 // }
 
-use crate::helpers::check_dev;
 use crate::{Context, Error};
+use crate::helpers::helpers::check_dev;
 
 #[poise::command(prefix_command)]
 pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
