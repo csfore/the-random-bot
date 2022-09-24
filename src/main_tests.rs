@@ -1,6 +1,5 @@
 //! Description: Unit tests to test functions in main.rs
 
-
 #[cfg(test)]
 mod tests {
     use crate::check_dev;

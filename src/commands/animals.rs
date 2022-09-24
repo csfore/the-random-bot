@@ -1,17 +1,14 @@
 //! Description: Commands used to fetch random animals using various APIs
 
-
 use crate::{Context, Error};
-use serde_derive::{Deserialize};
+use serde_derive::Deserialize;
 
 /// Fetches you a dog
 #[poise::command(slash_command, prefix_command)]
-pub async fn dog(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn dog(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        message: String
+        message: String,
     }
 
     let resp = reqwest::get("https://dog.ceo/api/breeds/image/random").await?;
@@ -20,22 +17,17 @@ pub async fn dog(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.message;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Dog!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Dog!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }
 
 /// Fetches you a fox
 #[poise::command(slash_command)]
-pub async fn fox(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn fox(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        image: String
+        image: String,
     }
 
     let resp = reqwest::get("https://randomfox.ca/floof/").await?;
@@ -44,22 +36,17 @@ pub async fn fox(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.image;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Fox!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Fox!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }
 
 /// Fetches you a cat
 #[poise::command(slash_command)]
-pub async fn cat(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn cat(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        link: String
+        link: String,
     }
 
     let resp = reqwest::get("https://some-random-api.ml/img/cat").await?;
@@ -68,22 +55,17 @@ pub async fn cat(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.link;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Cat!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Cat!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }
 
 /// Fetches you a panda
 #[poise::command(slash_command)]
-pub async fn panda(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn panda(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        link: String
+        link: String,
     }
 
     let resp = reqwest::get("https://some-random-api.ml/img/panda").await?;
@@ -92,22 +74,17 @@ pub async fn panda(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.link;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Panda!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Panda!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }
 
 /// Fetches you a red panda
 #[poise::command(slash_command)]
-pub async fn red_panda(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn red_panda(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        link: String
+        link: String,
     }
 
     let resp = reqwest::get("https://some-random-api.ml/img/red_panda").await?;
@@ -116,22 +93,17 @@ pub async fn red_panda(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.link;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Red Panda!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Red Panda!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }
 
 /// Fetches you a birb
 #[poise::command(slash_command)]
-pub async fn bird(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn bird(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        link: String
+        link: String,
     }
 
     let resp = reqwest::get("https://some-random-api.ml/img/birb").await?;
@@ -140,22 +112,17 @@ pub async fn bird(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.link;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Birb!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Birb!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }
 
 /// Fetches you a Koala
 #[poise::command(slash_command)]
-pub async fn koala(
-    ctx: Context<'_>
-) -> Result<(), Error> {
+pub async fn koala(ctx: Context<'_>) -> Result<(), Error> {
     #[derive(Debug, Deserialize)]
     struct Response {
-        link: String
+        link: String,
     }
 
     let resp = reqwest::get("https://some-random-api.ml/img/koala").await?;
@@ -164,10 +131,7 @@ pub async fn koala(
 
     let response: Response = serde_json::from_str(&body).unwrap();
     let message = response.link;
-    ctx.send(|b| {
-        b.embed(|b| b.title("Koala!")
-            .image(message)
-            .color(0xB87DDF))
-    }).await?;
+    ctx.send(|b| b.embed(|b| b.title("Koala!").image(message).color(0xB87DDF)))
+        .await?;
     Ok(())
 }

@@ -1,19 +1,12 @@
 //! Description: General purpose commands
 
-
-use crate::{Context, Error, generators};
+use crate::{generators, Context, Error};
 use poise::serenity_prelude as serenity;
-use serde_derive::{Deserialize};
+use serde_derive::Deserialize;
 
 #[derive(Deserialize, Debug)]
 struct Config {
-    // last_fm_key: String,
-    // last_fm_ua: String,
-    //discord_token: String,
     banned_words: Vec<String>,
-    //developers: Vec<String>,
-    //reddit: Reddit,
-    //imgur: Imgur
 }
 
 /// Displays your or another user's account creation date
@@ -27,7 +20,6 @@ pub async fn age(
     ctx.say(response).await?;
     Ok(())
 }
-
 
 #[poise::command(slash_command)]
 pub async fn say(
@@ -52,18 +44,21 @@ pub async fn say(
 #[poise::command(slash_command)]
 pub async fn ask(
     ctx: Context<'_>,
-    #[description = "Ask me anything, and I may respond wisely"] question: Option<String>
+    #[description = "Ask me anything, and I may respond wisely"] question: Option<String>,
 ) -> Result<(), Error> {
     let ask = question.unwrap();
-    let asker =String::from(&ctx.author().name) + "#" + &ctx.author().discriminator.to_string();
+    let asker = String::from(&ctx.author().name) + "#" + &ctx.author().discriminator.to_string();
 
     let answer = generators::eight_ball();
     ctx.send(|b| {
-        b.embed(|b| b.title(format!("{asker} Asked: {ask}")).description(format!("{answer}"))
-            .color(0xB87DDF))
-    }).await?;
+        b.embed(|b| {
+            b.title(format!("{asker} Asked: {ask}"))
+                .description(format!("{answer}"))
+                .color(0xB87DDF)
+        })
+    })
+    .await?;
     Ok(())
-
 }
 
 /*
@@ -73,10 +68,12 @@ pub async fn ask(
 
 // #[poise::command(slash_command, prefix_command, reuse_response)]
 // pub async fn test(ctx: Context<'_>) -> Result<(), Error> {
-//     let image_url = "https://raw.githubusercontent.com/serenity-rs/serenity/current/logo.png";
-//     let title = "Title";
-//     let text = "Hello!";
+//     use std::{thread, time};
 //
+//     let ten_millis = time::Duration::from_millis(10000);
+//     let now = time::Instant::now();
 //
+//     thread::sleep(ten_millis);
+//     println!("Slept");
 //     Ok(())
 // }
