@@ -11,43 +11,15 @@ use commands::*;
 mod database;
 mod events;
 mod main_tests;
-
-// use serenity::model::gateway::Activity;
-// use serenity::model::user::OnlineStatus;
-use futures::stream::TryStreamExt;
-use mongodb::{
-    bson::doc,
-    options::FindOptions,
-    //Database
-};
 use poise::serenity_prelude;
-use serde_derive::{Deserialize, Serialize};
 
 use env_logger::Env;
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Config {
-    token: String,
-}
-
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
+
 // User data, which is stored and accessible in all command invocations
 pub struct Data {}
-
-async fn get_token() -> mongodb::error::Result<String> {
-    let db = database::connect::init().await.unwrap();
-    let typed_collection = db.collection::<Config>("config");
-    let filter = doc! { "name": "Beta Token" };
-    let find_options = FindOptions::builder().sort(doc! { "name": 1 }).build();
-    let mut cursor = typed_collection.find(filter, find_options).await?;
-    let mut token = String::new();
-    // Iterate over the results of the cursor.
-    while let Some(config) = cursor.try_next().await? {
-        token = config.token;
-    }
-    Ok(token)
-}
 
 #[tokio::main]
 async fn main() {
@@ -57,7 +29,7 @@ async fn main() {
 
     env_logger::init_from_env(env);
 
-    let token = get_token().await.unwrap();
+    let token = helpers::get_token().await.unwrap();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
@@ -74,6 +46,8 @@ async fn main() {
                 rand_info::word(),
                 rand_info::fact(),
                 rand_info::youtube(),
+                rand_info::reddit(),
+                rand_info::weather(),
                 animals::dog(),
                 animals::fox(),
                 animals::cat(),

@@ -6,9 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-#serenity = { default-features = false, features = ["client", "gateway", "rustls_backend", "model"] }
 rand = "0.8.4"
-tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 poise = "0.3.0"
 dotenv = "0.15.0"
 wikipedia = "0.3.4"
@@ -16,13 +14,22 @@ json = "0.12.4"
 serde = "1.0.117"
 serde_derive = "1.0.117"
 serde_json = "1.0.59"
-reqwest = { version = "0.11", features = ["blocking"] }
 youtube_dl = "0.7.0"
 futures = "0.3"
 mongodb = "2.3.0"
 log = "0.4.0"
 env_logger = "0.9.1"
+roux = "2.2.1"
+chrono = "0.4"
 
 [dependencies.serenity]
 git = "https://github.com/serenity-rs/serenity.git"
 features = ["framework", "standard_framework", "client", "gateway"]
+
+[dependencies.tokio]
+version = "1.0"
+features = ["macros", "rt-multi-thread"]
+
+[dependencies.reqwest]
+version = "0.11"
+features = ["blocking"]

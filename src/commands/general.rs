@@ -6,13 +6,7 @@ use serde_derive::Deserialize;
 
 #[derive(Deserialize, Debug)]
 struct Config {
-    // last_fm_key: String,
-    // last_fm_ua: String,
-    //discord_token: String,
     banned_words: Vec<String>,
-    //developers: Vec<String>,
-    //reddit: Reddit,
-    //imgur: Imgur
 }
 
 /// Displays your or another user's account creation date

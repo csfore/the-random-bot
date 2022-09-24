@@ -1,6 +1,8 @@
 //! Description: Helper functions to reduce function clutter in files
 
 use mongodb::{bson::doc, options::FindOptions};
+use crate::database;
+
 
 use crate::database::connect;
 use futures::stream::TryStreamExt;
@@ -8,7 +10,9 @@ use serde_derive::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Config {
-    developers: Vec<String>,
+    token: Option<String>,
+    developers: Option<Vec<String>>,
+    key: Option<String>
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -48,4 +52,32 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
     } else {
         Ok(false)
     }
+}
+
+pub async fn get_token() -> mongodb::error::Result<String> {
+    let db = database::connect::init().await.unwrap();
+    let typed_collection = db.collection::<Config>("config");
+    let filter = doc! { "name": "Beta Token" };
+    let find_options = FindOptions::builder().sort(doc! { "name": 1 }).build();
+    let mut cursor = typed_collection.find(filter, find_options).await?;
+    let mut token = String::new();
+    // Iterate over the results of the cursor.
+    while let Some(config) = cursor.try_next().await? {
+        token = config.token.unwrap();
+    }
+    Ok(token)
+}
+
+pub async fn get_ow() -> mongodb::error::Result<String> {
+    let db = database::connect::init().await.unwrap();
+    let typed_collection = db.collection::<Config>("config");
+    let filter = doc! { "name": "OW" };
+    let find_options = FindOptions::builder().sort(doc! { "name": 1 }).build();
+    let mut cursor = typed_collection.find(filter, find_options).await?;
+    let mut token = String::new();
+    // Iterate over the results of the cursor.
+    while let Some(config) = cursor.try_next().await? {
+        token = config.key.unwrap();
+    }
+    Ok(token)
 }
