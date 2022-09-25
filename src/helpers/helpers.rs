@@ -57,7 +57,7 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
 pub async fn get_token() -> mongodb::error::Result<String> {
     let db = database::connect::init().await.unwrap();
     let typed_collection = db.collection::<Config>("config");
-    let filter = doc! { "name": "Beta Token" };
+    let filter = doc! { "name": "Token" };
     let find_options = FindOptions::builder().sort(doc! { "name": 1 }).build();
     let mut cursor = typed_collection.find(filter, find_options).await?;
     let mut token = String::new();
