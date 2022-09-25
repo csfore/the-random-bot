@@ -1,4 +1,4 @@
-//! Description: Function to get Reddit post
+//! Function to get Reddit post
 
 use rand::prelude::SliceRandom;
 use roux::Subreddit;
@@ -12,9 +12,6 @@ pub async fn get_post() -> PostData {
 
     let jobj = serde_json::to_string(&get_new.unwrap());
     let post: RawPost = serde_json::from_str(&jobj.unwrap()).unwrap();
-    //    for posts in post.data.children {
-    //        println!("{:#?}", posts.data);
-    //    }
     let rand_post = post.data.children.choose(&mut rand::thread_rng()).unwrap();
 
     let newobj = serde_json::to_string(&rand_post.data);

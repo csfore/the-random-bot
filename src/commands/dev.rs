@@ -1,18 +1,4 @@
-// use crate::{Context, Error, generators};
-// use poise::serenity_prelude as serenity;
-// use std::fmt::Write as _;
-//
-// /// Displays your or another user's account creation date
-// #[poise::command(slash_command, prefix_command)]
-// pub async fn age(
-//     ctx: Context<'_>,
-//     #[description = "Selected user"] user: Option<serenity::User>,
-// ) -> Result<(), Error> {
-//     let u = user.as_ref().unwrap_or_else(|| ctx.author());
-//     let response = format!("{}'s account was created at {}", u.name, u.created_at());
-//     ctx.say(response).await?;
-//     Ok(())
-// }
+//! Developer commands meant to be used only by developers for diagnostic purposes
 
 use crate::{Context, Error};
 use crate::helpers::helpers::check_dev;
@@ -39,7 +25,7 @@ pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
 #[poise::command(prefix_command)]
 pub async fn servers(ctx: Context<'_>) -> Result<(), Error> {
     /*
-    Built-in poise command to register all slash commands globally or only in-guild
+    Built-in poise command to get the server count the bot is in
     */
     let author = u64::from(ctx.author().id).to_string();
     if check_dev(author.as_str()).await.unwrap() {

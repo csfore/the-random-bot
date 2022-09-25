@@ -1,4 +1,4 @@
-//! Description: File to store all the structs
+//! File to store all the structs
 
 use serde_derive::{Deserialize, Serialize};
 

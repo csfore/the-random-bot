@@ -1,4 +1,4 @@
-//! Description: Module to store all commands that use APIs (will probably be own directory later)
+//! Module to store all commands that use APIs (will probably be own directory later)
 
 extern crate wikipedia;
 
@@ -7,13 +7,14 @@ use rand::Rng;
 use chrono::{TimeZone, Utc};
 use serde_derive::Deserialize;
 
+#[derive(Debug, Deserialize)]
+struct Response {
+    text: String,
+}
+
 /// A random fact
 #[poise::command(slash_command)]
 pub async fn fact(ctx: Context<'_>) -> Result<(), Error> {
-    #[derive(Debug, Deserialize)]
-    struct Response {
-        text: String,
-    }
     let resp = reqwest::get("https://uselessfacts.jsph.pl/random.json?language=en").await?;
     let body = resp.text().await?;
 
@@ -60,16 +61,17 @@ pub async fn youtube(ctx: Context<'_>) -> Result<(), Error> {
 #[poise::command(slash_command, prefix_command)]
 pub async fn reddit(ctx: Context<'_>) -> Result<(), Error> {
     let post = generators::reddit::get_post().await;
+    // Assigning post information
     let title = post.title;
     let sub = post.subreddit;
     let text = post.selftext;
     let author = post.author;
     let perma = post.permalink;
     let mut thumb = post.thumbnail;
+    // Getting time
     let time = Utc.timestamp(post.created.round() as i64, 0);
-    // spoiler
-    // self
-    // default
+
+    // Checking if the thumbnail value is any of these then if it is, returning the Reddit icon
     let defaults = vec!["spoiler", "self", "default"];
     if defaults.contains(&thumb.as_str()) {
         thumb = String::from("https://i.imgur.com/ws2kAA0.png");
@@ -96,6 +98,7 @@ pub async fn weather(
     #[description = "Latitude (optional)"] mut lat: Option<f64>,
     #[description = "Longitude (optional)"] mut long: Option<f64>,
 ) -> Result<(), Error> {
+    // Ensuring `lat` is a value, if not then assigning it a random value
     match lat {
         None => {
             lat = Some(rand::thread_rng().gen_range(-90.0..=90.0));
@@ -103,6 +106,7 @@ pub async fn weather(
         _ => ()
     }
 
+    // Ensuring `long` is a value, if not then assigning a random value
     match long {
         None => {
             long = Some(rand::thread_rng().gen_range(-180.0..=180.0));
@@ -114,6 +118,8 @@ pub async fn weather(
     let city = generators::weather::get_city(result.coord.lat, result.coord.lon).await.unwrap();
     // For now, ignore the compiler warning about this being unread. I'll figure something out
     let mut city_msg = String::new();
+
+    // Checking if a city exists at the coordinates, if not then just setting a default message
     match city {
         None => {
             city_msg = "No City Found".to_string();

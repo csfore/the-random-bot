@@ -1,4 +1,4 @@
-//! Description: OpenWeather functions
+//! OpenWeather functions
 
 use crate::generators::structs::{City, Weather};
 use crate::helpers::helpers;
@@ -12,10 +12,7 @@ pub async fn get_weather(lat: f64, long: f64) -> Weather {
 pub async fn get_city(lat: f64, lon: f64) -> Result<Option<Vec<City>>, ()> {
     let reverse = city_reversed(lat, lon).await.unwrap();
     let city: Vec<City> = serde_json::from_str(&reverse).unwrap();
-//    if city[0].name.as_ref().unwrap() == "" {
-//        println!("No results");
-//        return None;
-//    }
+    
     if city.len() == 0 {
         return Ok(None);
     }

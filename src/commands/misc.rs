@@ -1,4 +1,4 @@
-//! Description: General purpose commands
+//! General purpose commands
 
 use crate::{generators, Context, Error};
 use poise::serenity_prelude as serenity;

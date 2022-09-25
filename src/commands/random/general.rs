@@ -1,5 +1,5 @@
-//! Description: Commands used to fetch random information using general and to send the
-//!              output to Discord.
+//! Commands used to fetch random information using general and to send the
+//! output to Discord.
 
 /*
 /// A descriptive description

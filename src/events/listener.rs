@@ -1,3 +1,5 @@
+//! Event listener used to set bot status
+
 use crate::{Data, Error};
 use poise::serenity_prelude;
 use poise::serenity_prelude::{Activity, OnlineStatus};

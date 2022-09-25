@@ -1,4 +1,4 @@
-//! Description: Youtube generator function
+//! Youtube generator function
 
 use youtube_dl::SearchOptions;
 use youtube_dl::{YoutubeDl, YoutubeDlOutput};
@@ -15,9 +15,6 @@ pub fn youtube_video() -> String {
     ];
 
     let rand_prefix = charset.choose(&mut rand::thread_rng()).unwrap();
-    //let rand_postfix = charset.choose(&mut rand::thread_rng()).unwrap();
-
-    //let random_int: i32 = rand::thread_rng().gen_range(0..=9999);
 
     let search_string: String = rand_prefix.to_string();
 

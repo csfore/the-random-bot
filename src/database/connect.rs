@@ -1,5 +1,8 @@
+//! Connecting to a database
+
 use mongodb::{bson::doc, options::ClientOptions, Client, Database};
 
+/// Called `init()` because this will be used to connect to the db then stay connected
 pub async fn init() -> mongodb::error::Result<Database> {
     let mut client_options = ClientOptions::parse("mongodb://localhost:27017").await?;
     // Manually set an option
