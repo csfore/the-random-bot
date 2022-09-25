@@ -2,7 +2,7 @@
 //! Written On: 2022-08-29
 //! License: AGPLv3
 //! Description: Originally written in Python using discord.py, we decided to rewrite the bot into
-//!              Rust using serenity-rs and poise. More detail later.
+//!              Rust using serenity-rs and poise. More detail later. test
 #[macro_use]
 extern crate log;
 
