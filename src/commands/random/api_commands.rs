@@ -69,13 +69,15 @@ pub async fn reddit(ctx: Context<'_>) -> Result<(), Error> {
     let perma = post.permalink;
     let mut thumb = post.thumbnail;
     // Getting time
-    let time = Utc.timestamp(post.created.round() as i64, 0);
+    let time_raw = Utc.timestamp_opt(post.created.round() as i64, 0);
 
     // Checking if the thumbnail value is any of these then if it is, returning the Reddit icon
     let defaults = vec!["spoiler", "self", "default"];
     if defaults.contains(&thumb.as_str()) {
         thumb = String::from("https://i.imgur.com/ws2kAA0.png");
     }
+
+    let time = time_raw.unwrap();
 
     ctx.send(|b| {
         b.embed(|b| {

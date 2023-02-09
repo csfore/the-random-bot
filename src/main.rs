@@ -59,7 +59,7 @@ async fn main() {
                 animals::koala(),
                 //general::test() //<== Uncomment this when you need it
             ],
-            listener: |ctx, event, framework, user_data| {
+            event_handler: |ctx, event, framework, user_data| {
                 Box::pin(events::listener::event_listener(
                     ctx, event, framework, user_data,
                 ))

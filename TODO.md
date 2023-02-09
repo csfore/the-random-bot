@@ -7,7 +7,7 @@
 - [ ] Add other generators
   * About halfway there, only need Imgur, and LastFM
 - [x] Implement dev commands
-* Marked as done for now. Will add more as needed, right now have: adding a dev, removing a dev, and interfacing with the YouTube database as things to add
+  * Marked as done for now. Will add more as needed, right now have: adding a dev, removing a dev, and interfacing with the YouTube database as things to add
 - [ ] Add a random weather command using OpenWeather or something similar (Preferably a services that postfixes with numbers)
 
 ## Mid Term

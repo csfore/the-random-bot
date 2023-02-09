@@ -47,11 +47,7 @@ pub async fn check_dev(id: &str) -> mongodb::error::Result<bool> {
         warn!("{} ran a dev command", developers.name);
     }
 
-    if is_dev {
-        Ok(true)
-    } else {
-        Ok(false)
-    }
+    Ok(is_dev)
 }
 
 pub async fn get_token() -> mongodb::error::Result<String> {
