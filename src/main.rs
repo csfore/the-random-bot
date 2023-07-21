@@ -1,74 +1,60 @@
-//! Written By: Christopher Fore, David Horine, and Marshall Pearson
-//! Written On: 2022-08-29
-//! License: AGPLv3
-//! Description: Originally written in Python using discord.py, we decided to rewrite the bot into
-//!              Rust using serenity-rs and poise. More detail later. test
-#[macro_use]
-extern crate log;
+use poise::serenity_prelude as serenity;
 
-mod generators;
-mod helpers;
-mod commands;
-use commands::*;
-mod database;
-mod events;
-use poise::serenity_prelude;
-
-use env_logger::Env;
-use crate::random::{animals, api_commands, general};
-
+struct Data {} // User data, which is stored and accessible in all command invocations
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
-// User data, which is stored and accessible in all command invocations
-pub struct Data {}
+// /// Displays your or another user's account creation date
+// #[poise::command(slash_command, prefix_command)]
+// async fn age(
+//     ctx: Context<'_>,
+//     #[description = "Selected user"] user: Option<serenity::User>,
+// ) -> Result<(), Error> {
+//     let u = user.as_ref().unwrap_or_else(|| ctx.author());
+//     let response = format!("{}'s account was created at {}", u.name, u.created_at());
+//     ctx.say(response).await?;
+//     Ok(())
+// }
+
+/// Description of the command here
+///
+/// Here you can explain how the command \
+/// is used and how it works.
+#[poise::command(prefix_command, slash_command /* add more optional command settings here, like slash_command */)]
+async fn test(
+    ctx: Context<'_>,
+    // #[description = "Description of arg1 here"] arg1: serenity::Member,
+    // #[description = "Description of arg2 here"] arg2: Option<u32>,
+) -> Result<(), Error> {
+    // Command code here
+    ctx.send(|f| f
+        .content("Text")
+        .embed(|f| f
+            .title("H")
+            .description("Fix me")
+        )
+        // .ephemeral(true) // this one only applies in application commands though
+    ).await?;
+    Ok(())
+}
 
 #[tokio::main]
 async fn main() {
-    let env = Env::default()
-        .filter_or("MY_LOG_LEVEL", "warn")
-        .write_style_or("MY_LOG_STYLE", "always");
-
-    env_logger::init_from_env(env);
-
-    let token = helpers::helpers::get_token().await.unwrap();
-
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            // If you get a red line here on the last parenthesis, ignore it
             commands: vec![
-                dev::register(),
-                dev::servers(),
-                misc::say(),
-                misc::age(),
-                misc::ask(),
-                general::num(),
-                general::fibonacci(),
-                general::word(),
-                api_commands::wikipedia(),
-                api_commands::fact(),
-                api_commands::youtube(),
-                api_commands::reddit(),
-                api_commands::weather(),
-                animals::dog(),
-                animals::fox(),
-                animals::cat(),
-                animals::panda(),
-                animals::red_panda(),
-                animals::bird(),
-                animals::koala(),
-                //general::test() //<== Uncomment this when you need it
+                test()
             ],
-            event_handler: |ctx, event, framework, user_data| {
-                Box::pin(events::listener::event_listener(
-                    ctx, event, framework, user_data,
-                ))
-            },
             ..Default::default()
         })
-        .token(token)
-        .intents(serenity_prelude::GatewayIntents::non_privileged())
-        .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
+        .token(std::env::var("DISCORD_TOKEN").expect("missing DISCORD_TOKEN"))
+        .intents(serenity::GatewayIntents::non_privileged())
+        .setup(|ctx, _ready, framework| {
+            Box::pin(async move {
+                poise::builtins::register_globally(ctx, &framework.options().commands).await?;
+                Ok(Data {})
+            })
+        });
 
     framework.run().await.unwrap();
 }

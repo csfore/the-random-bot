@@ -2543,7 +2543,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "the-random-bot-rewrite"
+name = "the-random-bot"
 version = "0.1.0"
 dependencies = [
  "chrono",
