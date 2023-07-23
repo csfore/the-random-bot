@@ -2,6 +2,8 @@ use poise::serenity_prelude as serenity;
 use rand::Rng;
 use serde::{Deserialize, Serialize};
 
+const BRAND_COLOR = 0xB87DDF;
+
 struct Data {} // User data, which is stored and accessible in all command invocations
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
@@ -51,7 +53,7 @@ async fn number(
         .embed(|f| f
             .title(format!("Number between {} and {}", floor_raw, ceiling_raw))
             .description(format!("{}", num))
-            .color(0xB87DDF))
+            .color(BRAND_COLOR))
     ).await?;
     Ok(())
 }
