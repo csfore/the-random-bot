@@ -22,7 +22,7 @@ async fn test(
     ctx.send(|f| f
         .content("Text")
         .embed(|f| f
-            .title("H")
+            .title("Hello World!")
             .description("Fix me")
         )
         // .ephemeral(true) // this one only applies in application commands though
