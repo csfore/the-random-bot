@@ -1,14 +1,17 @@
 use poise::serenity_prelude as serenity;
+use rand::Rng;
+use serde::{Deserialize, Serialize};
 
 struct Data {} // User data, which is stored and accessible in all command invocations
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
+#[derive(Serialize, Deserialize)]
+struct Config {
+    token: String
+}
 
-/// Description of the command here
-///
-/// Here you can explain how the command \
-/// is used and how it works.
+/// Test functionality
 #[poise::command(prefix_command, slash_command /* add more optional command settings here, like slash_command */)]
 async fn test(
     ctx: Context<'_>,
@@ -27,12 +30,39 @@ async fn test(
     Ok(())
 }
 
+/// Random Number Generator
+#[poise::command(prefix_command, slash_command)]
+async fn number(
+    ctx: Context<'_>,
+    #[description = "The number to start at"] floor: Option<u128>,
+    #[description = "The number to end at"] ceiling: Option<u128>
+) -> Result<(), Error> {
+    let mut floor_raw = 0;
+    let mut ceiling_raw = 10;
+
+    if let (Some(floor), Some(ceiling)) = (floor, ceiling) {
+        floor_raw = floor;
+        ceiling_raw = ceiling;
+    }
+
+    let num: u128 = rand::thread_rng().gen_range(floor_raw..=ceiling_raw);
+
+    ctx.send(|f| f
+        .embed(|f| f
+            .title(format!("Number between {} and {}", floor_raw, ceiling_raw))
+            .description(format!("{}", num))
+            .color(0xB87DDF))
+    ).await?;
+    Ok(())
+}
+
 #[tokio::main]
 async fn main() {
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
             commands: vec![
-                test()
+                test(),
+                number()
             ],
             ..Default::default()
         })
