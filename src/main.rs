@@ -2,7 +2,7 @@ use poise::serenity_prelude as serenity;
 use rand::Rng;
 use serde::{Deserialize, Serialize};
 
-const BRAND_COLOR = 0xB87DDF;
+const BRAND_COLOR: i32 = 0xB87DDF;
 
 struct Data {} // User data, which is stored and accessible in all command invocations
 type Error = Box<dyn std::error::Error + Send + Sync>;
