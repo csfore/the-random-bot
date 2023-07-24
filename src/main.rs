@@ -40,9 +40,9 @@ async fn test(
 #[poise::command(prefix_command, slash_command)]
 async fn word(ctx: Context<'_>) -> Result<(), Error> {
     let dictionary_path = "dictionary.json";
-    let dictionary_reader = std::fs::read_to_string(&dictionary_path);
+    let dictionary_str = std::fs::read_to_string(&dictionary_path).expect("dictionary.json not found in the top level directory.");
 
-    let dictionary: HashMap<String, String> = serde_json::from_str(&dictionary_reader.expect("dictionary.json not found in the top level directory.")).expect("dictionary.json wasn't able to be parsed");
+    let dictionary: HashMap<String, String> = serde_json::from_str(&dictionary_str).expect("dictionary.json wasn't able to be parsed");
 
     let mut words: Vec<String> = Vec::new();
     let mut definitions: Vec<String> = Vec::new();
