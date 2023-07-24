@@ -1,5 +1,8 @@
 use poise::serenity_prelude as serenity;
-use rand::Rng;
+use rand::{
+    Rng,
+    seq::SliceRandom
+};
 use serde::{Deserialize, Serialize};
 
 const BRAND_COLOR: i32 = 0xB87DDF;
@@ -58,13 +61,37 @@ async fn number(
     Ok(())
 }
 
+/// Ask me anything, and I may respond wisely
+#[poise::command(prefix_command, slash_command)]
+async fn ask(
+    ctx: Context<'_>,
+    question: String
+) -> Result<(), Error> {
+    let mut answer = "";
+
+    let questions: Vec<&str> = vec!["It is certain.", "Reply hazy, try again", "Don't count on it", "It is decidedly so", "Ask again later", "My reply is no", "Without a doubt", "Better not tell you now", "My sources say no", "Yes, definitely", "Cannot predict now", "Outlook not so good", "You may rely on it", "Concentrate and ask again", "Very doubtful", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes"];
+
+    if let Some(answer_raw) = questions.choose(&mut rand::thread_rng()) {
+        answer = *answer_raw;
+    }
+
+    ctx.send(|f| f
+        .embed(|f| f
+            .title("The 8 Ball responds...")
+            .description(format!("{}\n\nYou asked: **{}**", answer, question))
+            .color(BRAND_COLOR))).await?;
+
+    Ok(())
+}
+
 #[tokio::main]
 async fn main() {
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
             commands: vec![
                 test(),
-                number()
+                number(),
+                ask()
             ],
             ..Default::default()
         })
