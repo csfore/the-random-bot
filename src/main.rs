@@ -39,28 +39,28 @@ async fn test(
 /// Random Word generator
 #[poise::command(prefix_command, slash_command)]
 async fn word(ctx: Context<'_>) -> Result<(), Error> {
-    let config_path = "dictionary.json";
-    let config_read = std::fs::read_to_string(&config_path);
+    let dictionary_path = "dictionary.json";
+    let dictionary_reader = std::fs::read_to_string(&dictionary_path);
 
-    let dictionary: HashMap<String, String> = serde_json::from_str(&config_read.expect("dictionary.json not found in the top level directory.")).expect("dictionary.json wasn't able to be parsed");
+    let dictionary: HashMap<String, String> = serde_json::from_str(&dictionary_reader.expect("dictionary.json not found in the top level directory.")).expect("dictionary.json wasn't able to be parsed");
 
-    let mut keys: Vec<String> = Vec::new();
-    let mut values: Vec<String> = Vec::new();
+    let mut words: Vec<String> = Vec::new();
+    let mut definitions: Vec<String> = Vec::new();
 
     for (key, value) in dictionary {
-        keys.push(key);
-        values.push(value);
+        words.push(key);
+        definitions.push(value);
     }
 
-    let choice = rand::thread_rng().gen_range(0..keys.len() - 1);
+    let choice = rand::thread_rng().gen_range(0..words.len() - 1);
 
-    let keys_ret = &keys[choice];
-    let values_ret = &values[choice];
+    let word = &words[choice];
+    let definition = &definitions[choice];
 
     ctx.send(|f| f
         .embed(|f| f
             .title("Your word is....")
-            .description(format!("{} - {}", keys_ret, values_ret))
+            .description(format!("{} - {}", word, definition))
             .color(BRAND_COLOR))
     ).await?;
     Ok(())
