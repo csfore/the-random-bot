@@ -5,6 +5,7 @@ use rand::{
     seq::SliceRandom
 };
 use serde::{Deserialize, Serialize};
+use image::{ImageBuffer, RgbImage, Rgb}; 
 
 const BRAND_COLOR: i32 = 0xB87DDF;
 
@@ -35,6 +36,35 @@ async fn test(
     ).await?;
     Ok(())
 }
+
+#[poise::command(prefix_command, slash_command)]
+async fn color(ctx: Context<'_>) -> Result<(), Error> {
+
+    let red:u8 = rand::thread_rng().gen_range(0..=255);
+    let green:u8 = rand::thread_rng().gen_range(0..=255);
+    let blue:u8 = rand::thread_rng().gen_range(0..=255);
+    let mut img: RgbImage = ImageBuffer::new(128, 128);
+    for x in 0..128 {
+        for y in 0..128 {
+            img.put_pixel(x, y, Rgb([red, green, blue]));
+        }
+    }
+    img.save("./color.jpg")?;
+    let img_reader = tokio::fs::File::open("./color.jpg").await?;
+    // this works, trust
+    let color = i32::from(red) * 256 * 256 + i32::from(green) * 256 + i32::from(blue); 
+    ctx.send(|f| f
+        .embed(|f| f
+            .title("Your color is...")
+            .description(format!("RGB = ({0},{1},{2})\n Hex = 0x{0:X}{1:X}{2:X}", red, green, blue))
+            .color(color)
+            .attachment("color.jpg"))
+        .attachment(serenity::AttachmentType::File { file: (&img_reader), filename: ("color.jpg".to_string()) })
+        
+    ).await?;
+    Ok(())
+
+} 
 
 /// Random Word generator
 #[poise::command(prefix_command, slash_command)]
@@ -136,7 +166,8 @@ async fn main() {
                 test(),
                 number(),
                 ask(),
-                word()
+                word(),
+                color()
             ],
             ..Default::default()
         })
